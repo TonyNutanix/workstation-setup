@@ -20,3 +20,7 @@ dnf -y install vim
 dnf -y install tmux
 dnf -y install python-pip
 
+# Set up git
+git config --global user.name "Tony Hughes"
+git config --global user.email tony.hughes@nutanix.com
+git config --global core.editor vim
