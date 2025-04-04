@@ -25,6 +25,6 @@ source .env
 echo $GIT_USER_NAME
 echo $GIT_USER_EMAIL
 echo $GIT_CORE_EDITOR
-sudo -H -u nutanix git config --global user.name "$GIT_USER_NAME"
-sudo -H -u nutanix git config --global user.email $GIT_USER_EMAIL
-sudo -H -u nutanix git config --global core.editor $GIT_CORE_EDITOR
+sudo -H -u nutanix git config --global --replace-all user.name "$GIT_USER_NAME"
+sudo -H -u nutanix git config --global --replace-all user.email $GIT_USER_EMAIL
+sudo -H -u nutanix git config --global --replace-all core.editor $GIT_CORE_EDITOR
