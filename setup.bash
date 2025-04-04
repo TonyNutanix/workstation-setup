@@ -19,6 +19,7 @@ dnf -y update
 dnf -y install vim
 dnf -y install tmux
 dnf -y install python-pip
+dnf -y install opentofu
 
 # Set up git
 source .env
