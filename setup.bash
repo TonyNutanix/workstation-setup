@@ -21,7 +21,7 @@ dnf -y install tmux
 dnf -y install python-pip
 
 # Set up git
-sudo -H -u source .userenv
+sudo -H -u nutanix source .userenv
 sudo -H -u nutanix git config --global user.name $GIT_USER_NAME
 sudo -H -u nutanix git config --global user.email $GIT_USER_EMAIL
 sudo -H -u nutanix git config --global core.editor $GIT_CORE_EDITOR
