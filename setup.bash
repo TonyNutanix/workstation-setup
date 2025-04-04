@@ -22,9 +22,9 @@ dnf -y install python-pip
 
 # Set up git
 source .env
-echo $GIT_USER_NAME
-echo $GIT_USER_EMAIL
-echo $GIT_CORE_EDITOR
+echo INFO: git user.name is being set to $GIT_USER_NAME
+echo INFO: git user.email is being set to $GIT_USER_EMAIL
+echo INFO: git core.editor is being set to $GIT_CORE_EDITOR
 sudo -H -u nutanix git config --global --replace-all user.name "$GIT_USER_NAME"
 sudo -H -u nutanix git config --global --replace-all user.email $GIT_USER_EMAIL
 sudo -H -u nutanix git config --global --replace-all core.editor $GIT_CORE_EDITOR
