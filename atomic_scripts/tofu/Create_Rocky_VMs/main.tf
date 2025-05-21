@@ -98,7 +98,7 @@ TH: Define the location for the image to be used for creating the VM.
 resource "nutanix_image" "Automation-Rocky9" {
   name        = "${local.prefix_for_created_entities}-automation-Rocky-9"
   source_uri  = "https://dl.rockylinux.org/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud-Base-9.5-20241118.0.x86_64.qcow2"
-  description = "${local.prefix_for_created_entities} automation SyncRep Rocky 9 Image"
+  description = "${local.prefix_for_created_entities} automation Rocky 9 Image"
 }
 
 /*
@@ -106,8 +106,8 @@ TH: This section contains all the details related to the VMs being built.
 */
 resource "nutanix_virtual_machine" "Rocky_VM" {
   count                = 5
-  name                 = "${local.prefix_for_created_entities}_automation_SyncRep_Rocky_9_${count.index}"
-  description          = "${local.prefix_for_created_entities}_automation_SyncRep_Rocky_9${count.index}"
+  name                 = "${local.prefix_for_created_entities}_automation_Rocky_9_${count.index}"
+  description          = "${local.prefix_for_created_entities}_automation_Rocky_9${count.index}"
   num_vcpus_per_socket = 2
   num_sockets          = 1
   memory_size_mib      = 4096
