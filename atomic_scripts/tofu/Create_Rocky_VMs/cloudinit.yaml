@@ -1,0 +1,11 @@
+#cloud-config 
+users:
+  - name: nutanix
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+chpasswd:
+  list: |
+    nutanix:nutanix/4u
+  expire: False
+ssh_pwauth: true"
+packages:
+  - git

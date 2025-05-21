@@ -1,4 +1,5 @@
 # Workstation Setup
+This script sets up the environment to run all the atomic_scripts.
 
 ## Prequisites
 This script assumes it is being run on a freshly installed Rocky 9 system
