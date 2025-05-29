@@ -92,7 +92,18 @@ ssh into the PCVM and run "nuclei cluster.list" to get a list of attached cluste
 */
 locals {
   cluster1 = data.nutanix_clusters.clusters.entities[1].metadata.uuid
+  cluster1_name = data.nutanix_clusters.clusters.entities[1].name
 }
+
+/*
+TH: Output the values of the variables for cluster1.  These will be displayed as the last lines of 
+    "terraform plan" and can be used to adjust the above indexes.  Compare the output with the above mentioned "nuclei cluster.list"
+    and fine tune as needed.
+*/
+output "cluster1" {
+  value = local.cluster1
+}
+
 
 /*
 TH: Define the location for the image to be used for creating the VM.
