@@ -79,6 +79,8 @@ OPTIONAL UPDATE THIS
 Change the "0" to "1", "2", or another number if the following error is presented during terraform plan or terraform apply 
 or if the entites are craeted on the wrong cluster.
 
+ssh into the PCVM and run "nuclei cluster.list" to get a list of attached cluster names and UUIDs.
+
     Error: error: {
    "api_version": "3.1",
    "code": 400,
