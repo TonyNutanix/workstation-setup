@@ -101,7 +101,7 @@ TH: Output the values of the variables for cluster1.  These will be displayed as
     and fine tune as needed.
 */
 output "cluster1" {
-  value = local.cluster1
+  value = local.cluster1_name
 }
 
 
