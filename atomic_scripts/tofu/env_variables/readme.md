@@ -13,4 +13,5 @@ description = "The username"
 type = string
 
 } 
-4. 
+4. Run "source .env" followed by "set" to confirm the variables are present in the shell environment.
+5. Follow the normal process pertaining to the rest of the terraform usage (terraform init, plan, apply...)
