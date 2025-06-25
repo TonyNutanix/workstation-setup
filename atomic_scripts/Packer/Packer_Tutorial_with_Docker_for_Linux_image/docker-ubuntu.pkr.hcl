@@ -30,3 +30,8 @@ build {
     inline = ["echo This provisioner runs last"]
   }
 }
+
+variable "docker_image" {
+  type    = string
+  default = "ubuntu:jammy"
+}
