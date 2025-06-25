@@ -58,3 +58,6 @@ sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/dock
 sudo dnf -y install docker-ce docker-ce-cli containerd.io
 sudo systemctl start docker
 sudo systemctl enable docker
+sudo usermod -aG docker nutanix
+
+echo "A reboot may be needed to pick up changes.  Try rebooting if things aren't working as expected after running this script"
