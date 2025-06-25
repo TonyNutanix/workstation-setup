@@ -29,8 +29,9 @@ build {
   provisioner "shell" {
     inline = ["echo Running ${var.docker_image} Docker image."]
   }
-  variable "docker_image" {
-    type    = string
-    default = "ubuntu:jammy"
-  }
 }
+variable "docker_image" {
+  type    = string
+  default = "ubuntu:jammy"
+}
+
