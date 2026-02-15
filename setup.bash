@@ -70,6 +70,7 @@ echo "This is the password for VS Code on port 8080: "
 sudo cat ~/.config/code-server/config.yaml | grep -i password
 echo ""
 
-
+# Install Ansible
+sudo dnf install ansible-core -y
 
 echo "A reboot may be needed to pick up changes.  Try rebooting if things aren't working as expected after running this script"
