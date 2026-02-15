@@ -64,8 +64,7 @@ sudo usermod -aG docker nutanix
 sudo dnf install -y curl nano
 curl -fsSL https://code-server.dev/install.sh | sh
 sudo systemctl enable --now code-server@$USER
-sudo firewall-cmd --add-port=8080/tcp --permanent
-sudo firewall-cmd --reload
+sudo sed -i 's/127\.0\.0\.1/0.0.0.0/g' ~/.config/code-server/config.yaml
 echo "This is the password for VS Code on port 8080: "
 sudo cat ~/.config/code-server/config.yaml | grep -i password
 echo ""
