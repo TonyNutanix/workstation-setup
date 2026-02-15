@@ -67,7 +67,7 @@ sudo systemctl enable --now code-server@$USER
 sudo firewall-cmd --add-port=8080/tcp --permanent
 sudo firewall-cmd --reload
 echo "This is the password for VS Code on port 8080: "
-cat ~/.config/code-server/config.yaml | grep -i password
+sudo cat ~/.config/code-server/config.yaml | grep -i password
 echo ""
 
 
