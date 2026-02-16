@@ -73,8 +73,8 @@ sudo dnf install ansible-core -y
 
 echo "$(tput bold)$(tput setaf 1)Here are important things to know!$(tput sgr0)"
 echo "$(tput bold)$(tput setaf 2)This is the password for VS Code on port 8080: $(tput sgr0)"
-sudo cat ~/.config/code-server/config.yaml | grep -i password
+sudo cat ~/.config/code-server/config.yaml | grep -i "password:"
 echo "$(tput bold)$(tput setaf 2)VS Code Server will not have the .gitconfig setup for root. Open a termainal in VS Code Server and run these two commands:$(tput sgr0)"
 echo "$(tput bold)$(tput setaf 2)git config --global user.name \"<username>\"$(tput sgr0)"
-ehco "$(tput bold)$(tput setaf 2)git config --global user.email \"<quoted email addresss>\"$(tput sgr0)"
+echo "$(tput bold)$(tput setaf 2)git config --global user.email \"<quoted email address>\"$(tput sgr0)"
 echo "$(tput bold)$(tput setaf 2)A reboot may be needed to pick up changes.  Try rebooting if things aren't working as expected after running this script$(tput sgr0)"
