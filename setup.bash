@@ -16,6 +16,9 @@ echo INFO: Checking for Rocky Updates
 dnf -y check-update
 echo INFO: Applying Rocky Updates
 dnf -y update
+# This is required for Docker on Rocky10
+sudo dnf install -y kernel-modules-extra
+sudo modprobe xt_addrtype
 
 # Install packages
 echo INFO: Installing selected packages
