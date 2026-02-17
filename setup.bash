@@ -79,7 +79,7 @@ echo "$(tput bold)$(tput setaf 4)########## INFO: Installing Ansible ##########$
 # sudo dnf install ansible-core -y # Need 2.16 or higher, this install an older version
 sudo -u nutanix -i pip install "ansible-core>=2.16"
 sudo -u nutanix -i pip install requests urllib3 --user #this might fail and can be run with a non-root account
-ansible-galaxy collection install nutanix.ncp
+sudo -u nutanix -i ansible-galaxy collection install nutanix.ncp
 
 
 echo "$(tput bold)$(tput setaf 4)########## INFO: Installation Complete ##########$(tput sgr0)"
