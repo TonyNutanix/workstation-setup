@@ -1,0 +1,28 @@
+---
+- name: Nutanix clusters info
+  hosts: localhost
+  gather_facts: false
+
+  collections:
+    - nutanix.ncp
+
+  module_defaults:
+    group/nutanix.ncp.ntnx:
+      nutanix_host: "{{ pc_ip }}"
+      nutanix_username: "{{ nutanix_user }}"
+      nutanix_password: "{{ nutanix_password }}"
+      validate_certs: false
+
+  vars:
+    pc_ip: "10.42.42.40"            # <-- set yours
+    nutanix_user: "admin"         # <-- set yours
+    nutanix_password: "nx2Tech254!"    # <-- set yours
+
+  tasks:
+    - name: Get cluster inventory (v4 API)
+      nutanix.ncp.ntnx_prism_cluster_inventory_v2:
+      register: cluster_info
+
+    - name: Show result
+      ansible.builtin.debug:
+        var: cluster_info
