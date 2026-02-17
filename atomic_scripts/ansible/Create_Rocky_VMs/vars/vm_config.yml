@@ -1,0 +1,63 @@
+---
+# =============================================================================
+# VM Configuration - vars/vm_config.yml
+# =============================================================================
+# Customize these values for your environment.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Nutanix infrastructure targets
+# ---------------------------------------------------------------------------
+nutanix_cluster_name: "PHX-POC042-AHV"
+nutanix_subnet_name: "Primary"
+nutanix_validate_certs: false
+
+# ---------------------------------------------------------------------------
+# Rocky Linux 9 image
+# ---------------------------------------------------------------------------
+rocky9_image_name: "AMH-Rocky-9-GenericCloud"
+
+# Optional: URL to download the cloud image if not already uploaded.
+# Comment this out if the image is already in your Image Service.
+rocky9_image_url: "https://dl.rockylinux.org/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
+
+# ---------------------------------------------------------------------------
+# VM specifications
+# ---------------------------------------------------------------------------
+vm_name: "AMH-rocky9-server-01"
+vm_hostname: "rocky9-server-01"
+vm_domain: "lab.local"
+vm_fqdn: "rocky9-server-01.lab.local"
+vm_description: "Rocky Linux 9 VM - deployed via Ansible"
+
+vm_vcpus: 2
+vm_cores_per_vcpu: 1
+vm_memory_gb: 4
+vm_disk_size_gb: 50
+
+# Boot configuration: LEGACY or UEFI
+vm_boot_type: "LEGACY"
+vm_timezone: "America/Los_Angeles"
+
+# ---------------------------------------------------------------------------
+# Networking
+# ---------------------------------------------------------------------------
+# Set a static IP, or comment out to use DHCP
+# vm_static_ip: "10.0.0.100"
+
+# ---------------------------------------------------------------------------
+# Cloud-init configuration
+# ---------------------------------------------------------------------------
+cloud_init_user: "ansible"
+cloud_init_ssh_pwauth: "false"
+
+# Paste your SSH public key here (required for cloud-init provisioning)
+cloud_init_ssh_pubkey: "ssh-ed25519 AAAA... your-key-comment"
+
+# ---------------------------------------------------------------------------
+# Nutanix categories (optional)
+# ---------------------------------------------------------------------------
+# vm_categories:
+#   Environment: "Development"
+#   AppType: "Linux"
+#   Owner: "DevOps"
