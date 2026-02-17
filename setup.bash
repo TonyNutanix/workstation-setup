@@ -24,6 +24,7 @@ sudo modprobe xt_addrtype
 echo INFO: Installing selected packages
 dnf -y install vim
 dnf -y install tmux
+dnf -y install net-tools
 dnf -y install python-pip
 
 # Set up git
@@ -71,7 +72,7 @@ curl -fsSL https://code-server.dev/install.sh | sh
 sudo systemctl enable --now code-server@nutanix
 # Need to wait for service to start so the default config.yaml gets created
 sleep 60
-sed -i 's/127\.0\.0\.1/0.0.0.0/g' ~/.config/code-server/config.yaml
+sed -i 's/127\.0\.0\.1/0.0.0.0/g' /home/nutanix/.config/code-server/config.yaml
 
 # Install Ansible
 # sudo dnf install ansible-core -y # Need 2.16 or higher, this install an older version
@@ -82,9 +83,10 @@ ansible-galaxy collection install nutanix.ncp
 
 
 echo "$(tput bold)$(tput setaf 1)Here are important things to know!$(tput sgr0)"
+echo "$(tput bold)$(tput setaf 2)Docker will fail to start during this installation process. It works after reboot.$(tput sgr0)"
 echo "$(tput bold)$(tput setaf 2)This is the password for VS Code on port 8080: $(tput sgr0)"
-sudo cat ~/.config/code-server/config.yaml | grep -i "password:"
+sudo cat /home/nutanix/.config/code-server/config.yaml | grep -i "password:"
 echo "$(tput bold)$(tput setaf 2)VS Code Server will not have the .gitconfig setup for root. Open a termainal in VS Code Server and run these two commands:$(tput sgr0)"
 echo "$(tput bold)$(tput setaf 2)git config --global user.name \"<username>\"$(tput sgr0)"
 echo "$(tput bold)$(tput setaf 2)git config --global user.email \"<quoted email address>\"$(tput sgr0)"
-echo "$(tput bold)$(tput setaf 2)A reboot may be needed to pick up changes.  Try rebooting if things aren't working as expected after running this script$(tput sgr0)"
+echo "$(tput bold)$(tput setaf 2)A reboot is required at this point! Reboot and enjoy!$(tput sgr0)"
