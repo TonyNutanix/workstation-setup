@@ -54,8 +54,10 @@ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashi
 sudo yum -y install packer
 
 # Install Docker
-sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-sudo dnf -y install docker-ce docker-ce-cli containerd.io
+# sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo # This worked on Rocky9
+# sudo dnf -y install docker-ce docker-ce-cli containerd.io # This worked on Rocky9
+sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+sudo dnf -y install docker-ce docker-ce-cli containerd.io 
 sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker nutanix
