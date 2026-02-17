@@ -70,7 +70,9 @@ sudo sed -i 's/127\.0\.0\.1/0.0.0.0/g' ~/.config/code-server/config.yaml
 
 # Install Ansible
 sudo dnf install ansible-core -y
-sudo pip install requests urllib3 --user
+sudo pip install requests urllib3 --user #this might fail and can be run with a non-root account
+ansible-galaxy collection insdtall nutanix.ncp
+
 
 
 echo "$(tput bold)$(tput setaf 1)Here are important things to know!$(tput sgr0)"
