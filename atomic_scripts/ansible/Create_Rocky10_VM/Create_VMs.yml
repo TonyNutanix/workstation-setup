@@ -55,6 +55,7 @@
       #  image_ext_id: "{{ (images.response | selectattr('name', 'equalto', image_name) | first).ext_id }}"
       debug:
         msg: "Found Images: {{ images.response | map(attribute='name') | list }}"
+        msg: "Total Images: {{ images.total_available_reults}}"
 
     - name: Deploy Rocky Linux VM
       ntnx_vms_v2:

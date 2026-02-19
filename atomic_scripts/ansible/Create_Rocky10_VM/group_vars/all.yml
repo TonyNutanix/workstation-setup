@@ -1,0 +1,11 @@
+---
+# vars
+
+  vars:
+    pc_ip: "10.42.42.40"            # <-- set yours
+    nutanix_user: "admin"         # <-- set yours
+    nutanix_password: "nx2Tech254!"    # <-- set yours
+    cluster_name: "PHX-POC042-AHV"
+    vm_name: "AMH-Ansible-02182026-Rocky-10"
+    image_name: "AMH-Ansible-02182026-Rocky-Linux-10-image"
+    image_url: "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2"

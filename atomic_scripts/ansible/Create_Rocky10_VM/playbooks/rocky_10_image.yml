@@ -1,0 +1,28 @@
+---
+# Rocky 10 Image Play
+- name: Rocky 10 Image Play
+  hosts: localhost
+  collections:
+    - nutanix.ncp
+  tasks:
+    - name: Run CRUD for Rocky 10 image
+      ntnx_images_v2:
+        state: "{{ pkg_state | default('present')}}"
+        name: "{{ image_name }}"
+        type: "DISK_IMAGE"
+        nutanix_host: "{{ pc_ip }}"
+        source:
+          url_source:
+            url: "{{ image_url }}"
+        wait: true
+
+    - name: Get Image Info
+      ntnx_images_info_v2:
+        register: images
+
+    - name: Set Image UUID
+      #set_fact:
+        #  image_ext_id: "{{ (images.response | selectattr('name', 'equalto', image_name) | first).ext_id }}"
+      debug:
+        # msg: "Found Images: {{ images.response | map(attribute='name') | list }}"
+        msg: "Total Images: {{ images.total_available_reults}}"
