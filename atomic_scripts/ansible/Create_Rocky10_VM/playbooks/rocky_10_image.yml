@@ -2,6 +2,8 @@
 # Rocky 10 Image Play
 - name: Rocky 10 Image Play
   hosts: localhost
+  vars_files:
+    - ../group_vars/all.yml
   collections:
     - nutanix.ncp
   tasks:
@@ -11,6 +13,9 @@
         name: "{{ image_name }}"
         type: "DISK_IMAGE"
         nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
         source:
           url_source:
             url: "{{ image_url }}"
