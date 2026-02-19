@@ -20,14 +20,3 @@
           url_source:
             url: "{{ image_url }}"
         wait: true
-
-    - name: Get Image Info
-      ntnx_images_info_v2:
-        register: images
-
-    - name: Set Image UUID
-      #set_fact:
-        #  image_ext_id: "{{ (images.response | selectattr('name', 'equalto', image_name) | first).ext_id }}"
-      debug:
-        # msg: "Found Images: {{ images.response | map(attribute='name') | list }}"
-        msg: "Total Images: {{ images.total_available_reults}}"

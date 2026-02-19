@@ -1,0 +1,67 @@
+---
+# VM Creation Play
+- name: VM Creation Play
+  hosts: localhost
+  vars_files:
+    - ../group_vars/all.yml
+  collections:
+    - nutanix.ncp
+  tasks:
+    - name: Retreive Cluster Information
+      ntnx_clusters_info_v2:
+        nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
+        register: cluster_info
+
+    - name: Set Cluster UUID
+      set_fact:
+        ext_id: "{{ (cluster_info.response | selectattr('name', 'equalto', cluster_name) | first).ext_id }}"
+    
+    - name: Get Image Info
+      ntnx_images_info_v2:
+      register: images
+
+    - name: Set Image UUID
+      #set_fact:
+      #  image_ext_id: "{{ (images.response | selectattr('name', 'equalto', image_name) | first).ext_id }}"
+      debug:
+        #msg: "Found Images: {{ images.response | map(attribute='name') | list }}"
+        msg: "Total Images: {{ images.total_available_reults}}"
+
+    - name: Run CRUD for Rocky 10 VMs
+      ntnx_images_v2:
+        state: "{{ pkg_state | default('present')}}"
+        name: "{{ image_name }}"
+        type: "DISK_IMAGE"
+        nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
+
+    - name: Deploy Rocky Linux VM
+      ntnx_vms_v2:
+        state: present
+        name: "{{ vm_name }}"
+        cluster:
+          ext_id: "{{ cluster_ext_id }}"
+        
+        # CPU & Memory sizing (v4 API format requires bytes)
+        num_sockets: 1
+        num_cores_per_socket: 1
+        memory_size_bytes: 2147483648  # 2 GB
+        
+        # Clone the disk from the Image UUID
+        disks:
+          - backing_info:
+              data_source_reference:
+                image_reference:
+                  image_ext_id: "{{ image_ext_id }}"
+
+        # Inject the local cloud-init script (v4 requires base64 encoding)
+        guest_customization:
+          config:
+            cloudinit:
+              cloud_init_script:
+                user_data: "{{ lookup('file', './cloudinit.yaml') | b64encode }}"
