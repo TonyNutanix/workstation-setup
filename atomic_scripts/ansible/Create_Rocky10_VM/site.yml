@@ -1,4 +1,5 @@
 ---
 # site.yml
 # - import_playbook: playbooks/rocky_10_image.yml
-- import_playbook: playbooks/rocky_10_vm.yml
+# - import_playbook: playbooks/rocky_10_vm.yml
+- import_playbook: playbooks/paragon.yml

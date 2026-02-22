@@ -1,0 +1,112 @@
+---
+# VM Creation Play
+- name: VM Creation Play
+  hosts: localhost
+  vars_files:
+    - ../group_vars/all.yml
+  vars:
+    vm_name: "AMH-Paragon"
+    subnet_name: "Primary"
+  collections:
+    - nutanix.ncp
+  tasks:
+    - name: Retreive Cluster Information
+      ntnx_clusters_info_v2:
+        nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
+      register: cluster_info
+
+    - name: Set Cluster UUID
+      set_fact:
+        cluster_ext_id: "{{ (cluster_info.response | selectattr('name', 'equalto', cluster_name) | first).ext_id }}"
+    
+    - name: Get Images
+      ntnx_images_info_v2:
+        nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
+      register: images
+
+    - name: Get pages of images
+      set_fact:
+        total_image_count: "{{ images.total_available_results }}"
+        num_images_per_page: 100
+
+    - name: Get number of pages
+      set_fact:
+        num_pages: "{{ ((total_image_count | int) // (num_images_per_page | int)) + (((total_image_count | int) % (num_images_per_page | int)) > 0 | int) }}"
+
+    - name: Get all images
+      ntnx_images_info_v2:
+        nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
+        limit: "{{ num_images_per_page }}"
+        page: "{{ item }}"
+      register: all_images
+      loop: "{{ range(0, (num_pages | int)) | list }}"
+      when: (total_image_count | int) > 0
+      ignore_errors: true
+
+    #- ansible.builtin.debug:
+    #    var: all_images
+
+    - name: Set Image Ext_id
+      set_fact:
+        image_ext_id: "{{ all_images.results | map(attribute='response') | flatten | selectattr('name', 'equalto', image_name) | map(attribute='ext_id') | first }}"
+
+    - name: Get Subnets
+      ntnx_subnets_info_v2:
+        nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
+        limit: 100
+      register: subnets_raw
+
+    - name: Set Subnet Ext_id
+      set_fact:
+        subnet_ext_id: "{{ (subnets_raw.response | selectattr('name', 'equalto', subnet_name) | first).ext_id }}"
+
+    - name: Deploy Rocky Linux VM
+      ntnx_vms_v2:
+        nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
+        state: present
+        name: "{{ vm_name }}"
+        cluster:
+          ext_id: "{{ cluster_ext_id }}"
+        
+        # CPU & Memory sizing (v4 API format requires bytes)
+        num_sockets: 1
+        num_cores_per_socket: 1
+        memory_size_bytes: 2147483648  # 2 GB
+        
+        # Clone the disk from the Image UUID
+        disks:
+          - backing_info:
+              vm_disk:
+                data_source:
+                  reference:
+                    image_reference:
+                      image_ext_id: "{{ image_ext_id }}"
+
+        # NIC
+        nics:
+          - network_info:
+              subnet:
+                ext_id: "{{ subnet_ext_id }}"
+
+        # Inject the local cloud-init script (v4 requires base64 encoding)
+        guest_customization:
+          config:
+            cloudinit:
+              cloud_init_script:
+                user_data:
+                  value: "{{ lookup('file', '../cloudinit.yaml') | b64encode }}"
