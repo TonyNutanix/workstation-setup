@@ -2,10 +2,12 @@
 users:
   - name: nutanix
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: wheel
+    shell: /bin/bash
 chpasswd:
   list: |
     nutanix:nutanix/4u
   expire: False
-ssh_pwauth: true"
+ssh_pwauth: true
 packages:
   - git

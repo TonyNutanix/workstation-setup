@@ -56,6 +56,19 @@
       set_fact:
         image_ext_id: "{{ all_images.results | map(attribute='response') | flatten | selectattr('name', 'equalto', image_name) | map(attribute='ext_id') | first }}"
 
+    - name: Get Subnets
+      ntnx_subnets_info_v2:
+        nutanix_host: "{{ pc_ip }}"
+        nutanix_username: "{{ nutanix_user }}"
+        nutanix_password: "{{ nutanix_password }}"
+        validate_certs: false
+        limit: 100
+      register: subnets_raw
+
+    - name: Set Subnet Ext_id
+      set_fact:
+        subnet_ext_id: "{{ (subnets_raw.response | selectattr('name', 'equalto', subnet_name) | first).ext_id }}"
+
     - name: Deploy Rocky Linux VM
       ntnx_vms_v2:
         nutanix_host: "{{ pc_ip }}"
@@ -80,14 +93,17 @@
                   reference:
                     image_reference:
                       image_ext_id: "{{ image_ext_id }}"
-        #    disk_address:
-        #      bus_type: SCSI
-        #      index: 0
+
+        # NIC
+        nics:
+          - network_info:
+              subnet:
+                ext_id: "{{ subnet_ext_id }}"
 
         # Inject the local cloud-init script (v4 requires base64 encoding)
-        #guest_customization:
-        #  config:
-        #    cloudinit:
-        #      cloud_init_script:
-        #        user_data:
-        #          value: "../cloudinit.yaml"
+        guest_customization:
+          config:
+            cloudinit:
+              cloud_init_script:
+                user_data:
+                  value: "{{ lookup('file', '../cloudinit.yaml') | b64encode }}"

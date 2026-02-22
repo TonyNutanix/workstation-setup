@@ -7,3 +7,4 @@ cluster_name: "PHX-POC042-AHV"     # <-- set your Prism Element Cluster for the 
 vm_name: "AMH-Ansible-02222026-Rocky-10"
 image_name: "AMH-Ansible-02182026-Rocky-Linux-10-image"
 image_url: "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2"
+subnet_name: "Primary"
