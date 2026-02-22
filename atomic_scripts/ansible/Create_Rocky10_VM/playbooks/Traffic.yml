@@ -10,7 +10,7 @@
   tasks:
     - name: Override all.yml variables
       set_fact:
-        vm_name: "AMH-Infra"
+        vm_name: "AMH-Traffic"
         subnet_name: "Primary"
 
     - name: Retreive Cluster Information
