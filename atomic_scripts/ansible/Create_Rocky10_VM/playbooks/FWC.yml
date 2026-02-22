@@ -10,7 +10,7 @@
   tasks:
     - name: Override all.yml variables
       set_fact:
-        vm_name: "AMH-Paragon"
+        vm_name: "AMH-FWC"
         subnet_name: "Primary"
 
     - name: Retreive Cluster Information

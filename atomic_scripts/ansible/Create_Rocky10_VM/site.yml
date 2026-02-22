@@ -3,3 +3,7 @@
 # - import_playbook: playbooks/rocky_10_image.yml
 # - import_playbook: playbooks/rocky_10_vm.yml
 - import_playbook: playbooks/paragon.yml
+- import_playbook: playbooks/VPN.yml
+- import_playbook: playbooks/FWC.yml
+- import_playbook: playbooks/Infra.yml
+- import_playbook: playbooks/Traffic.yml
