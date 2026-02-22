@@ -17,7 +17,7 @@
 
     - name: Set Cluster UUID
       set_fact:
-        ext_id: "{{ (cluster_info.response | selectattr('name', 'equalto', cluster_name) | first).ext_id }}"
+        cluster_ext_id: "{{ (cluster_info.response | selectattr('name', 'equalto', cluster_name) | first).ext_id }}"
     
     - name: Get Images
       ntnx_images_info_v2:
@@ -29,7 +29,7 @@
 
     - name: Get pages of images
       set_fact:
-        total_image_count: "{{ result.total_available_results }}"
+        total_image_count: "{{ images.total_available_results }}"
         num_images_per_page: 100
 
     - name: Get number of pages
@@ -49,29 +49,21 @@
       when: (total_image_count | int) > 0
       ignore_errors: true
 
-    - ansible.builtin.debug:
-      var: all_subnets
+    #- ansible.builtin.debug:
+    #    var: all_images
 
-      #set_fact:
-       # image_ext_id: "{{ (images.response | selectattr('name', 'equalto', image_name) | first).ext_id }}"
-      #debug:
-       # msg: "Found Images: {{ images.response | map(attribute='name') | list }}"
-        #msg: "Total Images: {{ images.total_available_results }}"
+    - name: Set Image Ext_id
+      set_fact:
+        image_ext_id: "{{ all_images.results | map(attribute='response') | flatten | selectattr('name', 'equalto', image_name) | map(attribute='ext_id') | first }}"
 
-    - name: Run CRUD for Rocky 10 VMs
-      ntnx_images_v2:
-        state: "{{ pkg_state | default('present')}}"
-        name: "{{ image_name }}"
-        type: "DISK_IMAGE"
+    - name: Deploy Rocky Linux VM
+      ntnx_vms_v2:
         nutanix_host: "{{ pc_ip }}"
         nutanix_username: "{{ nutanix_user }}"
         nutanix_password: "{{ nutanix_password }}"
         validate_certs: false
-
-    - name: Deploy Rocky Linux VM
-      ntnx_vms_v2:
         state: present
-        name: "{{ vm_name }}"
+        name: "AMH-ANSIBLE-02222026-Test"
         cluster:
           ext_id: "{{ cluster_ext_id }}"
         
@@ -83,13 +75,19 @@
         # Clone the disk from the Image UUID
         disks:
           - backing_info:
-              data_source_reference:
-                image_reference:
-                  image_ext_id: "{{ image_ext_id }}"
+              vm_disk:
+                data_source:
+                  reference:
+                    image_reference:
+                      image_ext_id: "{{ image_ext_id }}"
+        #    disk_address:
+        #      bus_type: SCSI
+        #      index: 0
 
         # Inject the local cloud-init script (v4 requires base64 encoding)
-        guest_customization:
-          config:
-            cloudinit:
-              cloud_init_script:
-                user_data: "{{ lookup('file', './cloudinit.yaml') | b64encode }}"
+        #guest_customization:
+        #  config:
+        #    cloudinit:
+        #      cloud_init_script:
+        #        user_data:
+        #          value: "../cloudinit.yaml"
