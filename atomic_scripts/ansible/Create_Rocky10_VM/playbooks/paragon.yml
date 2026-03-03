@@ -10,8 +10,8 @@
   tasks:
     - name: Override all.yml variables
       set_fact:
-        vm_name: "AMH-Paragon"
-        subnet_name: "Primary"
+        vm_name: "Paragon"
+        subnet_name: "Paragon"
 
     - name: Retreive Cluster Information
       ntnx_clusters_info_v2:

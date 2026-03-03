@@ -10,8 +10,8 @@
   tasks:
     - name: Override all.yml variables
       set_fact:
-        vm_name: "AMH-FWC"
-        subnet_name: "Primary"
+        vm_name: "FWC"
+        subnet_name: "FWC"
 
     - name: Retreive Cluster Information
       ntnx_clusters_info_v2:

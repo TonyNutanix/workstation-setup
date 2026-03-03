@@ -10,8 +10,8 @@
   tasks:
     - name: Override all.yml variables
       set_fact:
-        vm_name: "AMH-VPN"
-        subnet_name: "Primary"
+        vm_name: "VPN"
+        subnet_name: "VPN"
 
     - name: Retreive Cluster Information
       ntnx_clusters_info_v2:
