@@ -1,9 +1,9 @@
 ---
 # vars
-pc_ip: "10.54.79.7"               # <-- set your Prism Central IP
+pc_ip: "10.55.1.7"               # <-- set your Prism Central IP
 nutanix_user: "admin"              # <-- set your Prism Central User 
 nutanix_password: "nx2Tech714!"    # <-- set your Prism Central Password
-cluster_name: "DM3-POC128"     # <-- set your Prism Element Cluster for the VMs to run on
+cluster_name: "DM3-POC001"     # <-- set your Prism Element Cluster for the VMs to run on
 vm_name: "AMH-Ansible-03042026-Rocky-10"
 image_name: "AMH-Ansible-03042026-Rocky-Linux-10-image"
 image_url: "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2"
